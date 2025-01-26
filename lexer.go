@@ -32,20 +32,22 @@ func lexer(str []byte) []Token {
 
 	number := func() {
 		numberStartCursor := cursor
-		nextCursor := cursor + 1
-		for isDigit(str[nextCursor]) {
+
+		for isDigit(str[cursor]) {
+			fmt.Println(str[cursor])
+			fmt.Println(isDigit(str[cursor]))
 			cursor++
 		}
 
-		if str[cursor] == '.' && isDigit(str[nextCursor+1]) {
-			for isDigit(str[nextCursor]) {
+		if str[cursor] == '.' && isDigit(str[cursor+1]) {
+			for isDigit(str[cursor+1]) {
 				cursor++
 			}
 		}
 
 		tokens = append(tokens, Token{
 			Type:  TOKEN_NUMBER,
-			Value: str[numberStartCursor:nextCursor],
+			Value: str[numberStartCursor : cursor+1],
 		})
 	}
 
