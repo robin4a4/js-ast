@@ -16,9 +16,9 @@ func (l LiteralExpression) isLiteral() bool { return true }
 func (l LiteralExpression) isBinary() bool  { return false }
 
 type BinaryExpression struct {
-	Left     LiteralExpression
+	Left     Expression
 	Operator string
-	Right    LiteralExpression
+	Right    Expression
 }
 
 func (b BinaryExpression) isExpression()   {}
@@ -28,7 +28,7 @@ func (b BinaryExpression) isBinary() bool  { return true }
 func parser(tokens []Token) Expression {
 	cursor := 0
 
-	literalExpression := func() LiteralExpression {
+	literalExpression := func() Expression {
 		if tokens[cursor].Type == TOKEN_NUMBER {
 			expr := LiteralExpression{
 				Value: tokens[cursor].Value,
@@ -42,9 +42,9 @@ func parser(tokens []Token) Expression {
 
 	expression := func() Expression {
 		left := literalExpression()
-		if tokens[cursor].Type == TOKEN_PLUS {
+		for cursor < len(tokens) && tokens[cursor].Type == TOKEN_PLUS {
 			cursor++
-			return BinaryExpression{
+			left = BinaryExpression{
 				Left:     left,
 				Operator: "+",
 				Right:    literalExpression(),
