@@ -1,7 +1,17 @@
 package main
 
+import (
+	"strconv"
+)
+
 func evalBinary(expression BinaryExpression) any {
-	return
+	switch expression.Operator {
+	case "+":
+		leftNum, _ := strconv.Atoi(string(interpreter(expression.Left).([]byte)))
+		rightNum, _ := strconv.Atoi(string(interpreter(expression.Right).([]byte)))
+		return []byte(strconv.Itoa(leftNum + rightNum))
+	}
+	panic("Error")
 }
 
 func interpreter(expression Expression) any {
@@ -9,6 +19,8 @@ func interpreter(expression Expression) any {
 	case LiteralExpression:
 		return expr.Value
 	case BinaryExpression:
-		return evalBinary()
+		return evalBinary(expr)
 	}
+
+	panic("Error")
 }

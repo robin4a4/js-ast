@@ -11,6 +11,6 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	expressions := parser(lexer(data))
+	expressions := interpreter(parser(lexer(data)))
 	fmt.Println(expressions)
 }
